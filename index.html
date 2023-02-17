@@ -2,10 +2,10 @@
 <html>
 <head>
 	<title>My Photos</title>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 	<h1>My Photos</h1>
+
 	<div id="photos"></div>
 
 	<script>
@@ -13,18 +13,22 @@
 		var url = "https://api.github.com/repos/phuwatthepro/mypics/contents";
 
 		// Fetch the list of files in the repository
-		$.get(url, function(data) {
-			// Filter the list to only include image files
-			var images = data.filter(function(file) {
-				return file.type === "file" && /\.(jpg|jpeg|png|gif)$/.test(file.name);
-			});
+		fetch(url)
+			.then(response => response.json())
+			.then(data => {
+				// Filter the list to only include image files
+				const images = data.filter(file => /\.(jpg|jpeg|png|gif)$/.test(file.name));
 
-			// Generate the HTML code for each image and add it to the page
-			images.forEach(function(image) {
-				var img = "<img src=\"" + image.download_url + "\">";
-				$("#photos").append(img);
-			});
-		});
+				// Generate the HTML code for each image and add it to the page
+				const photosDiv = document.getElementById("photos");
+				images.forEach(image => {
+					const img = document.createElement("img");
+					img.src = image.download_url;
+					img.alt = image.name;
+					photosDiv.appendChild(img);
+				});
+			})
+			.catch(error => console.error(error));
 	</script>
 </body>
 </html>
