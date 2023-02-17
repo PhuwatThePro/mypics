@@ -4,7 +4,7 @@
 	<title>My Photos</title>
 	<style>
 		img {
-			width: 500px;
+			max-width: 100%;
 			height: auto;
 		}
 	</style>
@@ -29,7 +29,7 @@
 				const photosDiv = document.getElementById("photos");
 				images.forEach(image => {
 					const img = document.createElement("img");
-					img.src = image.download_url;
+					img.src = image.download_url + "?raw=true"; // add "?raw=true" to the URL to display the image in its original size and quality
 					img.alt = image.name;
 					photosDiv.appendChild(img);
 				});
@@ -38,4 +38,3 @@
 	</script>
 </body>
 </html>
-
