@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Photos</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+	<h1>My Photos</h1>
+	<div id="photos"></div>
+
+	<script>
+		// Replace 'USERNAME' and 'REPO' with your GitHub username and repository name
+		var url = "https://api.github.com/repos/phuwatthepro/mypics/contents";
+
+		// Fetch the list of files in the repository
+		$.get(url, function(data) {
+			// Filter the list to only include image files
+			var images = data.filter(function(file) {
+				return file.type === "file" && /\.(jpg|jpeg|png|gif)$/.test(file.name);
+			});
+
+			// Generate the HTML code for each image and add it to the page
+			images.forEach(function(image) {
+				var img = "<img src=\"" + image.download_url + "\">";
+				$("#photos").append(img);
+			});
+		});
+	</script>
+</body>
+</html>
